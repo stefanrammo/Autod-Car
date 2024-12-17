@@ -1,0 +1,45 @@
+Car 1
+
+Brand: Tesla
+Color: Red
+Engine: Electric
+Horsepower: 670
+Body Type: Sedan
+CreatedAt: 2023-05-01
+ModifiedAt: 2023-08-15
+Car 2
+
+Brand: BMW
+Color: Black
+Engine: V8
+Horsepower: 500
+Body Type: Coupe
+CreatedAt: 2022-10-10
+ModifiedAt: 2023-06-22
+Car 3
+
+Brand: Audi
+Color: Silver
+Engine: V6 Turbo
+Horsepower: 400
+Body Type: SUV
+CreatedAt: 2021-03-17
+ModifiedAt: 2023-01-09
+Car 4
+
+Brand: Ford
+Color: Blue
+Engine: V4
+Horsepower: 180
+Body Type: Hatchback
+CreatedAt: 2020-11-25
+ModifiedAt: 2022-12-05
+Car 5
+
+Brand: Mercedes-Benz
+Color: White
+Engine: Inline 4
+Horsepower: 250
+Body Type: Sedan
+CreatedAt: 2022-07-03
+ModifiedAt: 2023-02-10

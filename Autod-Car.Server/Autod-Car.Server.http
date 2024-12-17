@@ -1,0 +1,6 @@
+@Autod_Car.Server_HostAddress = http://localhost:5274
+
+GET {{Autod_Car.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.34916.146
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Autod-Car.Server", "Autod-Car.Server\Autod-Car.Server.csproj", "{FC8C7F4A-C18F-4DC0-905C-19E5F6279CD9}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "autod-car.client", "autod-car.client\autod-car.client.esproj", "{EB603039-D1A0-4E82-AD0A-9C1CA933B050}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FC8C7F4A-C18F-4DC0-905C-19E5F6279CD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC8C7F4A-C18F-4DC0-905C-19E5F6279CD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC8C7F4A-C18F-4DC0-905C-19E5F6279CD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC8C7F4A-C18F-4DC0-905C-19E5F6279CD9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB603039-D1A0-4E82-AD0A-9C1CA933B050}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB603039-D1A0-4E82-AD0A-9C1CA933B050}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB603039-D1A0-4E82-AD0A-9C1CA933B050}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{EB603039-D1A0-4E82-AD0A-9C1CA933B050}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB603039-D1A0-4E82-AD0A-9C1CA933B050}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB603039-D1A0-4E82-AD0A-9C1CA933B050}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CBC8BE81-6853-4698-9160-8239539011D6}
+	EndGlobalSection
+EndGlobal
