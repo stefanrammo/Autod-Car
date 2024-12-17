@@ -1,3 +1,5 @@
+using AutodCar.Server.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Autod_Car.Server
 {
@@ -8,14 +10,20 @@ namespace Autod_Car.Server
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+
+            // Add the database context service (with connection string from appsettings.json)
+            builder.Services.AddDbContext<CarDbContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("CarDatabase")));
+
+            // Add Swagger (for API documentation)
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
 
+            // Serve static files and default files (for the React client)
             app.UseDefaultFiles();
             app.UseStaticFiles();
 
@@ -27,12 +35,12 @@ namespace Autod_Car.Server
             }
 
             app.UseHttpsRedirection();
-
             app.UseAuthorization();
 
-
+            // Map the controllers
             app.MapControllers();
 
+            // Fallback to index.html (for React routing)
             app.MapFallbackToFile("/index.html");
 
             app.Run();
