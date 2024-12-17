@@ -3,9 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.34916.146
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Autod-Car.Server", "Autod-Car.Server\Autod-Car.Server.csproj", "{FC8C7F4A-C18F-4DC0-905C-19E5F6279CD9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Autod-Car.Server", "Autod-Car.Server\Autod-Car.Server.csproj", "{FC8C7F4A-C18F-4DC0-905C-19E5F6279CD9}"
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "autod-car.client", "autod-car.client\autod-car.client.esproj", "{EB603039-D1A0-4E82-AD0A-9C1CA933B050}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{83ECC020-4E72-4030-B7EA-E7871B3C63FA}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
