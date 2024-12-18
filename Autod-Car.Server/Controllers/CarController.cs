@@ -1,63 +1,91 @@
-﻿using Autod_Car.Server;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using AutodCar.Server.Data;
 
-[Route("api/[controller]")]
-[ApiController]
-public class CarsController : ControllerBase
+namespace Autod_Car.Server.Controllers
 {
-    private static List<Car> cars = new List<Car>
+    [Route("api/[controller]")]
+    [ApiController]
+    public class CarsController : ControllerBase
     {
-        new Car { Id = 1, Brand = "Toyota", Color = "Red", Engine = "V6", Horsepower = 300, BodyType = "SUV", CreatedAt = DateTime.Now, ModifiedAt = DateTime.Now },
-        new Car { Id = 2, Brand = "Honda", Color = "Blue", Engine = "V4", Horsepower = 200, BodyType = "Sedan", CreatedAt = DateTime.Now, ModifiedAt = DateTime.Now }
-    };
+        private readonly CarDbContext _context;
 
-    [HttpGet]
-    public ActionResult<IEnumerable<Car>> GetCars()
-    {
-        return Ok(cars);
-    }
+        public CarsController(CarDbContext context)
+        {
+            _context = context;
+        }
 
-    [HttpGet("{id}")]
-    public ActionResult<Car> GetCar(int id)
-    {
-        var car = cars.FirstOrDefault(c => c.Id == id);
-        if (car == null) return NotFound();
-        return Ok(car);
-    }
+        // GET: api/Cars (Read all cars)
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Car>>> GetCars()
+        {
+            return await _context.Cars.ToListAsync();
+        }
 
-    [HttpPost]
-    public ActionResult<Car> CreateCar(Car car)
-    {
-        car.Id = cars.Max(c => c.Id) + 1; // Generate a new Id
-        car.CreatedAt = DateTime.Now;
-        car.ModifiedAt = DateTime.Now;
-        cars.Add(car);
-        return CreatedAtAction(nameof(GetCar), new { id = car.Id }, car);
-    }
+        // GET: api/Cars/{id} (Read a specific car by ID)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Car>> GetCar(int id)
+        {
+            var car = await _context.Cars.FindAsync(id);
 
-    [HttpPut("{id}")]
-    public ActionResult<Car> UpdateCar(int id, Car car)
-    {
-        var existingCar = cars.FirstOrDefault(c => c.Id == id);
-        if (existingCar == null) return NotFound();
+            if (car == null)
+                return NotFound();
 
-        existingCar.Brand = car.Brand;
-        existingCar.Color = car.Color;
-        existingCar.Engine = car.Engine;
-        existingCar.Horsepower = car.Horsepower;
-        existingCar.BodyType = car.BodyType;
-        existingCar.ModifiedAt = DateTime.Now;
+            return car;
+        }
 
-        return Ok(existingCar);
-    }
+        // POST: api/Cars (Create a new car)
+        [HttpPost]
+        public async Task<ActionResult<Car>> PostCar(Car car)
+        {
+            car.CreatedAt = DateTime.UtcNow;
+            car.ModifiedAt = DateTime.UtcNow;
 
-    [HttpDelete("{id}")]
-    public ActionResult DeleteCar(int id)
-    {
-        var car = cars.FirstOrDefault(c => c.Id == id);
-        if (car == null) return NotFound();
+            _context.Cars.Add(car);
+            await _context.SaveChangesAsync();
 
-        cars.Remove(car);
-        return NoContent();
+            return CreatedAtAction(nameof(GetCar), new { id = car.Id }, car);
+        }
+
+        // PUT: api/Cars/{id} (Update an existing car)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutCar(int id, Car car)
+        {
+            if (id != car.Id)
+                return BadRequest();
+
+            car.ModifiedAt = DateTime.UtcNow;
+
+            _context.Entry(car).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!_context.Cars.Any(e => e.Id == id))
+                    return NotFound();
+                else
+                    throw;
+            }
+
+            return NoContent();
+        }
+
+        // DELETE: api/Cars/{id} (Delete a car)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteCar(int id)
+        {
+            var car = await _context.Cars.FindAsync(id);
+
+            if (car == null)
+                return NotFound();
+
+            _context.Cars.Remove(car);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
     }
 }

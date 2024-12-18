@@ -1,3 +1,5 @@
+CI/CD deployment of a React/.NET CRUD to Azure
+
 Kodutöö - Teha rakendus Autod(Car) kohta.
 NB! Teha täiesti uus rakendus ja alustada otsast peale. Ei kasuta olemasolevaid rakendusi.
 Kasutada samasugust arhitektuurilist lähenemist nagu oleme seda siiamaani teinud e peab olema Peamine rakendus, kus on Controller ja Vaated, ApplicationServices, Core ning Data. .Net Core Model-View-Controller rakendust kasutada. Võib ka niimoodi teha, et UI on Angular või muu ja kõik ülejäänud on serveri poolel nii nagu õppisime.

@@ -12,28 +12,31 @@ namespace Autod_Car.Server
             // Add services to the container.
             builder.Services.AddControllers();
 
-            // Add services to the container.
+            // Register DbContext with a connection string from configuration
+            builder.Services.AddDbContext<CarDbContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("CarDatabase")));
+
+            // Add CORS policy
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("AllowSpecificOrigin", policy =>
                 {
-                    policy.WithOrigins("https://localhost:5173")
+                    policy.WithOrigins("https://localhost:5173") // Adjust this to your client URL
                           .AllowAnyHeader()
                           .AllowAnyMethod();
                 });
             });
 
-
             // Add Swagger (for API documentation)
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-
-            builder.Services.AddControllers();
             var app = builder.Build();
+
+            // Use the CORS policy
             app.UseCors("AllowSpecificOrigin");
 
-            // Serve static files and default files (for the React client)
+            // Serve static files and default files (for React client)
             app.UseDefaultFiles();
             app.UseStaticFiles();
 

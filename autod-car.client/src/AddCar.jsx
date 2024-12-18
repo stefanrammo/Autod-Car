@@ -1,41 +1,26 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 function AddCar({ onAddCar }) {
     const [car, setCar] = useState({
-        brand: '',
-        color: '',
-        engine: '',
-        horsepower: '',
-        bodyType: ''
+        brand: "",
+        color: "",
+        engine: "",
+        horsepower: "",
+        bodyType: "",
     });
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setCar((prev) => ({
             ...prev,
-            [name]: value
+            [name]: value,
         }));
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        const response = await fetch('https://localhost:7239/api/cars', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(car)
-        });
-
-        const data = await response.json();
-        onAddCar(data);
-        setCar({
-            brand: '',
-            color: '',
-            engine: '',
-            horsepower: '',
-            bodyType: ''
-        });
+        onAddCar(car); // Call the passed function to add a car
+        setCar({ brand: "", color: "", engine: "", horsepower: "", bodyType: "" });
     };
 
     return (
