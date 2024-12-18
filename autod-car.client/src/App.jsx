@@ -12,7 +12,7 @@ function App() {
 
     const fetchCars = async () => {
         try {
-            const response = await fetch("https://localhost:7239/api/Cars");
+            const response = await fetch("/api/Cars");
             const data = await response.json();
             setCars(data);
         } catch (error) {
@@ -23,7 +23,7 @@ function App() {
     // Add a new car
     const handleAddCar = async (newCar) => {
         try {
-            const response = await fetch("https://localhost:7239/api/Cars", {
+            const response = await fetch("/api/Cars", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(newCar),
@@ -38,7 +38,7 @@ function App() {
     // Update an existing car
     const handleUpdateCar = async (updatedCar) => {
         try {
-            await fetch(`https://localhost:7239/api/Cars/${updatedCar.id}`, {
+            await fetch(`/api/Cars/${updatedCar.id}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(updatedCar),
@@ -54,7 +54,7 @@ function App() {
     // Delete a car
     const handleDeleteCar = async (id) => {
         try {
-            await fetch(`https://localhost:7239/api/Cars/${id}`, { method: "DELETE" });
+            await fetch(`/api/Cars/${id}`, { method: "DELETE" });
             setCars((prevCars) => prevCars.filter((car) => car.id !== id));
         } catch (error) {
             console.error("Error deleting car:", error);

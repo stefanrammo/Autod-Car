@@ -19,13 +19,10 @@ namespace Autod_Car.Server
             // Add CORS policy
             builder.Services.AddCors(options =>
             {
-                options.AddPolicy("AllowSpecificOrigin", policy =>
-                {
-                    policy.WithOrigins("https://localhost:5173") // Adjust this to your client URL
-                          .AllowAnyHeader()
-                          .AllowAnyMethod();
-                });
+                options.AddPolicy("AllowAllOrigins", builder =>
+                    builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             });
+
 
             // Add Swagger (for API documentation)
             builder.Services.AddEndpointsApiExplorer();
@@ -34,7 +31,7 @@ namespace Autod_Car.Server
             var app = builder.Build();
 
             // Use the CORS policy
-            app.UseCors("AllowSpecificOrigin");
+            app.UseCors("AllowAllOrigins");
 
             // Serve static files and default files (for React client)
             app.UseDefaultFiles();
