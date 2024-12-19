@@ -1,29 +1,40 @@
 import { useEffect, useState } from "react";
 import CarList from "./CarList";
 import AddCar from "./AddCar";
+import CarDetails from "./CarDetails";
+
+// Determine the base URL dynamically
+const baseUrl =
+    window.location.hostname === "localhost"
+        ? "https://localhost:7239/api/cars"
+        : "https://car123-aaezhjgzadhfa5ak.polandcentral-01.azurewebsites.net/api/cars";
 
 function App() {
     const [cars, setCars] = useState([]);
+    const [loading, setLoading] = useState(true); // Loading state
+    const [selectedCar, setSelectedCar] = useState(null);
+    const [editingCar, setEditingCar] = useState(null);
 
-    // Fetch cars on initial render
     useEffect(() => {
         fetchCars();
     }, []);
 
     const fetchCars = async () => {
         try {
-            const response = await fetch("https://car123-aaezhjgzadhfa5ak.polandcentral-01.azurewebsites.net/api/cars");
+            setLoading(true); // Show spinner while loading
+            const response = await fetch(baseUrl);
             const data = await response.json();
             setCars(data);
         } catch (error) {
             console.error("Error fetching cars:", error);
+        } finally {
+            setLoading(false); // Hide spinner after loading
         }
     };
 
-    // Add a new car
     const handleAddCar = async (newCar) => {
         try {
-            const response = await fetch("https://car123-aaezhjgzadhfa5ak.polandcentral-01.azurewebsites.net/api/cars", {
+            const response = await fetch(baseUrl, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(newCar),
@@ -35,10 +46,9 @@ function App() {
         }
     };
 
-    // Update an existing car
     const handleUpdateCar = async (updatedCar) => {
         try {
-            await fetch(`https://car123-aaezhjgzadhfa5ak.polandcentral-01.azurewebsites.net/api/cars/${updatedCar.id}`, {
+            await fetch(`${baseUrl}/${updatedCar.id}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(updatedCar),
@@ -46,26 +56,62 @@ function App() {
             setCars((prevCars) =>
                 prevCars.map((car) => (car.id === updatedCar.id ? updatedCar : car))
             );
+            setEditingCar(null);
         } catch (error) {
             console.error("Error updating car:", error);
         }
     };
 
-    // Delete a car
     const handleDeleteCar = async (id) => {
         try {
-            await fetch(`https://car123-aaezhjgzadhfa5ak.polandcentral-01.azurewebsites.net/api/cars/${id}`, { method: "DELETE" });
+            await fetch(`${baseUrl}/${id}`, { method: "DELETE" });
             setCars((prevCars) => prevCars.filter((car) => car.id !== id));
         } catch (error) {
             console.error("Error deleting car:", error);
         }
     };
 
+    const handleViewDetails = (car) => {
+        setSelectedCar(car);
+    };
+
+    const handleCloseDetails = () => {
+        setSelectedCar(null);
+    };
+
+    const handleEditCar = (car) => {
+        setEditingCar(car);
+    };
+
+    const handleCancelEdit = () => {
+        setEditingCar(null);
+    };
+
     return (
         <div>
             <h1>Car CRUD App</h1>
-            <AddCar onAddCar={handleAddCar} />
-            <CarList cars={cars} onDeleteCar={handleDeleteCar} onUpdateCar={handleUpdateCar} />
+            {editingCar ? (
+                <AddCar
+                    initialCar={editingCar}
+                    onAddCar={handleUpdateCar}
+                    onCancelEdit={handleCancelEdit}
+                />
+            ) : (
+                <AddCar onAddCar={handleAddCar} />
+            )}
+            {loading ? ( // Display spinner while loading
+                <><div className="spinner"></div><div className="spinnerText">Loading cars...</div></>
+            ) : (
+                <CarList
+                    cars={cars}
+                    onDeleteCar={handleDeleteCar}
+                    onEditCar={handleEditCar}
+                    onViewDetails={handleViewDetails}
+                />
+            )}
+            {selectedCar && (
+                <CarDetails car={selectedCar} onCloseDetails={handleCloseDetails} />
+            )}
         </div>
     );
 }
