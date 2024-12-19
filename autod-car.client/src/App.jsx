@@ -100,7 +100,7 @@ function App() {
                 <AddCar onAddCar={handleAddCar} />
             )}
             {loading ? ( // Display spinner while loading
-                <><div className="spinner"></div><div className="spinnerText">Loading cars...</div></>
+                <><div className="spinner"></div><div>Loading cars...</div></>
             ) : (
                 <CarList
                     cars={cars}
