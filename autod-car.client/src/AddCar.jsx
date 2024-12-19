@@ -81,7 +81,7 @@ function AddCar({ onAddCar, initialCar = null, onCancelEdit }) {
                 placeholder="Body Type"
                 required
             />
-            <button type="submit">{initialCar ? "Update Car" : "Add Car"}</button>
+            <button className="add-car-button" type="submit">{initialCar ? "Update Car" : "Add Car"}</button>
             {initialCar && <button onClick={onCancelEdit}>Cancel</button>}
         </form>
     );

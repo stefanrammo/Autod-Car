@@ -1,6 +1,15 @@
+import { useState, useEffect } from "react";
+
 function CarDetails({ car, onCloseDetails }) {
+    const [isVisible, setIsVisible] = useState(false);
+
+    useEffect(() => {
+        setIsVisible(true); // Trigger show animation
+        return () => setIsVisible(false); // Clean up and trigger hide animation
+    }, [car]);
+
     return (
-        <div style={{ border: "1px solid black", padding: "20px", marginTop: "20px" }}>
+        <div className={`car-details ${isVisible ? "show" : ""}`}>
             <h3>Car Details</h3>
             <p><strong>Brand:</strong> {car.brand}</p>
             <p><strong>Color:</strong> {car.color}</p>

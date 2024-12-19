@@ -3,7 +3,6 @@ import CarList from "./CarList";
 import AddCar from "./AddCar";
 import CarDetails from "./CarDetails";
 
-// Determine the base URL dynamically
 const baseUrl =
     window.location.hostname === "localhost"
         ? "https://localhost:7239/api/cars"
@@ -11,7 +10,7 @@ const baseUrl =
 
 function App() {
     const [cars, setCars] = useState([]);
-    const [loading, setLoading] = useState(true); // Loading state
+    const [loading, setLoading] = useState(true);
     const [selectedCar, setSelectedCar] = useState(null);
     const [editingCar, setEditingCar] = useState(null);
 
@@ -21,14 +20,14 @@ function App() {
 
     const fetchCars = async () => {
         try {
-            setLoading(true); // Show spinner while loading
+            setLoading(true);
             const response = await fetch(baseUrl);
             const data = await response.json();
             setCars(data);
         } catch (error) {
             console.error("Error fetching cars:", error);
         } finally {
-            setLoading(false); // Hide spinner after loading
+            setLoading(false);
         }
     };
 
@@ -81,34 +80,39 @@ function App() {
 
     const handleEditCar = (car) => {
         setEditingCar(car);
+        document.querySelector(".add-car-container").classList.add("editing"); // Add class when editing
     };
 
     const handleCancelEdit = () => {
         setEditingCar(null);
+        document.querySelector(".add-car-container").classList.remove("editing"); // Remove class when canceling
     };
 
+
     return (
-        <div>
-            <h1>Car CRUD App</h1>
-            {editingCar ? (
-                <AddCar
-                    initialCar={editingCar}
-                    onAddCar={handleUpdateCar}
-                    onCancelEdit={handleCancelEdit}
-                />
-            ) : (
-                <AddCar onAddCar={handleAddCar} />
-            )}
-            {loading ? ( // Display spinner while loading
-                <><div className="spinner"></div><div>Loading cars...</div></>
-            ) : (
-                <CarList
-                    cars={cars}
-                    onDeleteCar={handleDeleteCar}
-                    onEditCar={handleEditCar}
-                    onViewDetails={handleViewDetails}
-                />
-            )}
+        <div className="page-container">
+            <h1 className="page-header">Car CRUD App</h1>
+            <div className={`page-content ${selectedCar ? "details-open" : ""}`}>
+                {editingCar ? (
+                    <AddCar
+                        initialCar={editingCar}
+                        onAddCar={handleUpdateCar}
+                        onCancelEdit={handleCancelEdit}
+                    />
+                ) : (
+                    <AddCar onAddCar={handleAddCar} />
+                )}
+                {loading ? (
+                    <><div className="spinner"></div><div>Loading cars...</div></>
+                ) : (
+                    <CarList
+                        cars={cars}
+                        onDeleteCar={handleDeleteCar}
+                        onEditCar={handleEditCar}
+                        onViewDetails={handleViewDetails}
+                    />
+                )}
+            </div>
             {selectedCar && (
                 <CarDetails car={selectedCar} onCloseDetails={handleCloseDetails} />
             )}
