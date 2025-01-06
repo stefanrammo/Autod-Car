@@ -9,12 +9,14 @@ function AddCar({ onAddCar, initialCar = null, onCancelEdit }) {
         bodyType: "",
     });
 
+    // Populate form fields when editing an existing car
     useEffect(() => {
         if (initialCar) {
             setCar(initialCar);
         }
     }, [initialCar]);
 
+    // Handle input field changes
     const handleChange = (e) => {
         const { name, value } = e.target;
         setCar((prev) => ({
@@ -23,12 +25,13 @@ function AddCar({ onAddCar, initialCar = null, onCancelEdit }) {
         }));
     };
 
+    // Submit form (add or update)
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await onAddCar(car);
+        await onAddCar(car); // Call the parent function to handle adding/updating the car
 
         if (!initialCar) {
-            // Clear form if adding a new car
+            // Clear form fields if adding a new car
             setCar({
                 brand: "",
                 color: "",
@@ -41,48 +44,64 @@ function AddCar({ onAddCar, initialCar = null, onCancelEdit }) {
 
     return (
         <form onSubmit={handleSubmit}>
-            <input
-                type="text"
-                name="brand"
-                value={car.brand}
-                onChange={handleChange}
-                placeholder="Brand"
-                required
-            />
-            <input
-                type="text"
-                name="color"
-                value={car.color}
-                onChange={handleChange}
-                placeholder="Color"
-                required
-            />
-            <input
-                type="text"
-                name="engine"
-                value={car.engine}
-                onChange={handleChange}
-                placeholder="Engine"
-                required
-            />
-            <input
-                type="number"
-                name="horsepower"
-                value={car.horsepower}
-                onChange={handleChange}
-                placeholder="Horsepower"
-                required
-            />
-            <input
-                type="text"
-                name="bodyType"
-                value={car.bodyType}
-                onChange={handleChange}
-                placeholder="Body Type"
-                required
-            />
-            <button className="add-car-button" type="submit">{initialCar ? "Update Car" : "Add Car"}</button>
-            {initialCar && <button onClick={onCancelEdit}>Cancel</button>}
+            <div>
+                <input
+                    type="text"
+                    name="brand"
+                    value={car.brand}
+                    onChange={handleChange}
+                    placeholder="Brand"
+                    required
+                />
+            </div>
+            <div>
+                <input
+                    type="text"
+                    name="color"
+                    value={car.color}
+                    onChange={handleChange}
+                    placeholder="Color"
+                    required
+                />
+            </div>
+            <div>
+                <input
+                    type="text"
+                    name="engine"
+                    value={car.engine}
+                    onChange={handleChange}
+                    placeholder="Engine"
+                    required
+                />
+            </div>
+            <div>
+                <input
+                    type="number"
+                    name="horsepower"
+                    value={car.horsepower}
+                    onChange={handleChange}
+                    placeholder="Horsepower"
+                    required
+                />
+            </div>
+            <div>
+                <input
+                    type="text"
+                    name="bodyType"
+                    value={car.bodyType}
+                    onChange={handleChange}
+                    placeholder="Body Type"
+                    required
+                />
+            </div>
+            <button className="add-car-button" type="submit">
+                {initialCar ? "Update Car" : "Add Car"}
+            </button>
+            {initialCar && (
+                <button type="button" onClick={onCancelEdit}>
+                    Cancel
+                </button>
+            )}
         </form>
     );
 }

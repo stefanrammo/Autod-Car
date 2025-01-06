@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using AutodCar.Core.Models;
 using AutodCar.Server.Data;
 
-namespace Autod_Car.Server.Controllers
+namespace AutodCar.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

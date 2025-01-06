@@ -1,7 +1,7 @@
 using AutodCar.Server.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace Autod_Car.Server
+namespace AutodCar.Server
 {
     public class Program
     {

@@ -39,7 +39,14 @@
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.SpaProxy"
       }
+    },
+    "Frontend": {
+      "commandName": "Executable",
+      "executablePath": "npm",
+      "workingDirectory": "$(SolutionDir)autod-car.client",
+      "commandLineArgs": "run dev",
+      "launchBrowser": true,
+      "url": "http://localhost:5173"
     }
   }
 }
-

@@ -1,4 +1,4 @@
-﻿using Autod_Car.Server;
+﻿using AutodCar.Core.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
