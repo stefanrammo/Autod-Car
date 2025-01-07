@@ -10,8 +10,12 @@ function AddCar({ onAddCar, initialCar = null, onCancelEdit }) {
     });
 
     useEffect(() => {
+        // Kui initialCar on määratud, täidame vormi selle andmetega
         if (initialCar) {
             setCar(initialCar);
+        } else {
+            // Kui initialCar pole, lähtesta vormi
+            resetForm();
         }
     }, [initialCar]);
 
@@ -25,18 +29,22 @@ function AddCar({ onAddCar, initialCar = null, onCancelEdit }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await onAddCar(car);
+        await onAddCar(car); // Kutsume vanemkomponendi funktsiooni
 
         if (!initialCar) {
-            // Clear form if adding a new car
-            setCar({
-                brand: "",
-                color: "",
-                engine: "",
-                horsepower: "",
-                bodyType: "",
-            });
+            // Lähtestame vormi, kui lisatakse uus auto
+            resetForm();
         }
+    };
+
+    const resetForm = () => {
+        setCar({
+            brand: "",
+            color: "",
+            engine: "",
+            horsepower: "",
+            bodyType: "",
+        });
     };
 
     return (
@@ -81,8 +89,20 @@ function AddCar({ onAddCar, initialCar = null, onCancelEdit }) {
                 placeholder="Body Type"
                 required
             />
-            <button className="add-car-button" type="submit">{initialCar ? "Update Car" : "Add Car"}</button>
-            {initialCar && <button onClick={onCancelEdit}>Cancel</button>}
+            <button className="add-car-button" type="submit">
+                {initialCar ? "Update Car" : "Add Car"}
+            </button>
+            {initialCar && (
+                <button
+                    type="button"
+                    onClick={() => {
+                        resetForm();
+                        onCancelEdit(); // Kui tühistatakse redigeerimine
+                    }}
+                >
+                    Cancel
+                </button>
+            )}
         </form>
     );
 }

@@ -1,3 +1,4 @@
+using Autod_Car.Server.Services;
 using AutodCar.Server.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,6 +28,9 @@ namespace Autod_Car.Server
             // Add Swagger (for API documentation)
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddScoped<CarService>();
+
 
             var app = builder.Build();
 

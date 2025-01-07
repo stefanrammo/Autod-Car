@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using AutodCar.Server.Data;
+using Autod_Car.Server.Services;
 
 namespace Autod_Car.Server.Controllers
 {
@@ -8,82 +7,57 @@ namespace Autod_Car.Server.Controllers
     [ApiController]
     public class CarsController : ControllerBase
     {
-        private readonly CarDbContext _context;
+        private readonly CarService _carService;
 
-        public CarsController(CarDbContext context)
+        public CarsController(CarService carService)
         {
-            _context = context;
+            _carService = carService;
         }
 
-        // GET: api/Cars (Read all cars)
+        // GET: api/Cars
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Car>>> GetCars()
         {
-            return await _context.Cars.ToListAsync();
+            return Ok(await _carService.GetCarsAsync());
         }
 
-        // GET: api/Cars/{id} (Read a specific car by ID)
+        // GET: api/Cars/{id}
         [HttpGet("{id}")]
         public async Task<ActionResult<Car>> GetCar(int id)
         {
-            var car = await _context.Cars.FindAsync(id);
-
+            var car = await _carService.GetCarByIdAsync(id);
             if (car == null)
                 return NotFound();
 
-            return car;
+            return Ok(car);
         }
 
-        // POST: api/Cars (Create a new car)
+        // POST: api/Cars
         [HttpPost]
         public async Task<ActionResult<Car>> PostCar(Car car)
         {
-            car.CreatedAt = DateTime.UtcNow;
-            car.ModifiedAt = DateTime.UtcNow;
-
-            _context.Cars.Add(car);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(GetCar), new { id = car.Id }, car);
+            var createdCar = await _carService.CreateCarAsync(car);
+            return CreatedAtAction(nameof(GetCar), new { id = createdCar.Id }, createdCar);
         }
 
-        // PUT: api/Cars/{id} (Update an existing car)
+        // PUT: api/Cars/{id}
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCar(int id, Car car)
         {
-            if (id != car.Id)
-                return BadRequest();
-
-            car.ModifiedAt = DateTime.UtcNow;
-
-            _context.Entry(car).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!_context.Cars.Any(e => e.Id == id))
-                    return NotFound();
-                else
-                    throw;
-            }
+            var success = await _carService.UpdateCarAsync(id, car);
+            if (!success)
+                return NotFound();
 
             return NoContent();
         }
 
-        // DELETE: api/Cars/{id} (Delete a car)
+        // DELETE: api/Cars/{id}
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCar(int id)
         {
-            var car = await _context.Cars.FindAsync(id);
-
-            if (car == null)
+            var success = await _carService.DeleteCarAsync(id);
+            if (!success)
                 return NotFound();
-
-            _context.Cars.Remove(car);
-            await _context.SaveChangesAsync();
 
             return NoContent();
         }
